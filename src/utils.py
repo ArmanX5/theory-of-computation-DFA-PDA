@@ -2,6 +2,19 @@ import streamlit as st
 
 
 def input_dfa():
+    """
+    Generates the input DFA by prompting the user to enter the DFA's details.
+
+    Returns:
+        dict: A dictionary containing the DFA's details.
+            - "states" (list): The list of states in the DFA.
+            - "initial_state" (str): The initial state of the DFA.
+            - "alphabet" (list): The list of symbols in the DFA's alphabet.
+            - "final_states" (list): The list of final states in the DFA.
+            - "transitions" (dict): A dictionary representing the transitions in the DFA.
+                The keys are in the format "{state}-{symbol}", and the values are the
+                states that the DFA transitions to for each symbol.
+    """
     st.header("Input DFA")
     st.write("Please enter the DFA's details below:")
 
@@ -71,6 +84,16 @@ def input_dfa():
 
 
 def input_dfa_2():
+    """
+    Returns:
+        dict: A dictionary containing the details of the DFA.
+            - "states" (list): The list of states.
+            - "initial_state" (str): The initial state.
+            - "alphabet" (list): The list of symbols in the alphabet.
+            - "final_states" (list): The list of final states.
+            - "transitions" (dict): A dictionary representing the transitions.
+                - Each key is in the format "{state}-{symbol}" and the corresponding value is the next state.
+    """
     st.header("Input another DFA")
     st.write("Please enter the DFA's details below:")
 
@@ -161,6 +184,15 @@ def generate_strings(n, alphabet):
 
 
 def print_dfa(dfa):
+    """
+    Print the contents of a DFA.
+
+    Parameters:
+    - dfa: A DFA object
+
+    Returns:
+    None
+    """
     print("States: ", dfa.states)
     print("Alphabet: ", dfa.alphabet)
     print("Initial State: ", dfa.initial_state)
@@ -171,6 +203,15 @@ def print_dfa(dfa):
 
 
 def state_name(state):
+    """
+    Generates the name of a state.
+
+    Args:
+        state (str): The state whose name is to be generated.
+
+    Returns:
+        str: The name of the state.
+    """
     state = list(state)
     name = ""
     if len(state) == 1:
@@ -184,6 +225,15 @@ def state_name(state):
 
 
 def list_to_string(list):
+    """
+    Converts a list of strings into a comma-separated string.
+
+    Args:
+        list (list): The list of strings to be converted.
+
+    Returns:
+        string: The comma-separated string.
+    """
     string = ""
     for i in range(len(list)):
         string += list[i]

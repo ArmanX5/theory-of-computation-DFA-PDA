@@ -4,6 +4,19 @@ from operator import xor
 
 class DFA:
     def __init__(self, states, alphabet, transitions, initial_state, final_states):
+        """
+        Initializes the Finite State Machine with the given parameters.
+
+        Args:
+            states (list): A list of states in the FSM.
+            alphabet (list): A list of symbols in the alphabet.
+            transitions (dict): A dictionary representing the transitions in the FSM. The keys are strings in the format "state-symbol" and the values are the resulting states.
+            initial_state (str): The initial state of the FSM.
+            final_states (list): A list of final states in the FSM.
+
+        Returns:
+            None
+        """
         self.states = states # list ["A", "B", ...]
         self.alphabet = alphabet # list ["a", "b", ...]
         self.transitions = transitions # dict {"A-a": "B", "A-b": "C", ...}
@@ -12,9 +25,24 @@ class DFA:
         self.num_states = len(states) # int
 
     def __str__(self):
+        """
+        Returns a string representation of the object.
+
+        Returns:
+            str: A string representation of the object.
+        """
         return f"States: {self.states}\nAlphabet: {self.alphabet}\nInitial State: {self.initial_state}\nFinal States: {self.final_states}\nTransitions: {self.transitions}"
 
     def is_state_reachable(self, state):
+        """
+        Check if a given state is reachable from the initial state.
+
+        Parameters:
+            state (Any): The state to check for reachability.
+
+        Returns:
+            bool: True if the state is reachable, False otherwise.
+        """
         visited = set()  # Set to keep track of visited states during traversal
         stack = [self.initial_state]  # Stack to perform depth-first search
 
@@ -34,18 +62,43 @@ class DFA:
         return False  # The state is not reachable
     
     def is_lang_empty(self):
+        """
+        Check if the language recognized by the automaton is empty.
+
+        Returns:
+            bool: True if the language is empty, False otherwise.
+        """
         for state in self.final_states:
             if self.is_state_reachable(state):
                 return False
         return True
     
     def does_accept_string(self, string):
+        """
+        Checks if the provided string is accepted by the finite state machine.
+
+        Args:
+            string (str): The string to be checked.
+
+        Returns:
+            bool: True if the string is accepted, False otherwise.
+        """
         current_state = self.initial_state
         for symbol in string:
             current_state = self.transitions.get(f"{current_state}-{symbol}", None)
         return current_state in self.final_states
     
     def is_lang_finite(self):
+        """
+        Check if the language recognized by the automaton is finite or not.
+
+        Parameters:
+        - self: The Automaton object.
+
+        Return:
+        - True if the language is finite.
+        - False otherwise.
+        """
         for i in range(self.num_states, 2*self.num_states+1):
             strings = utils.generate_strings(i, self.alphabet)
             for string in strings:
@@ -54,6 +107,12 @@ class DFA:
         return True
 
     def accepted_strings(self):
+        """
+        Generates a list of accepted strings based on the current state machine.
+
+        Returns:
+            List[str]: A list of accepted strings.
+        """
         accepted_strings = []
         if not self.is_lang_finite():
             return []
@@ -69,6 +128,12 @@ class DFA:
         return accepted_strings
 
     def draw_dfa(self):
+        """
+        Generate a graph of the DFA.
+
+        Returns:
+            dot (Digraph): A directed graph representing the DFA.
+        """
         # Create a directed graph using graphviz
         dot = Digraph(comment='DFA')
         dot.attr(rankdir='LR')  # Left to right layout
@@ -99,6 +164,12 @@ class DFA:
         return dot
 
     def minimize(self):
+        """
+        Minimizes the DFA by removing unreachable states.
+
+        Returns:
+            DFA: A new DFA object representing the minimized DFA.
+        """
         # remove unreachable states
         states = [state for state in self.states if self.is_state_reachable(state)]
         final_states = [state for state in self.final_states if self.is_state_reachable(state)]
@@ -108,6 +179,15 @@ class DFA:
 
         # Function to find the group of a state
         def find_group(state):
+            """
+            Find the group in the partition that contains the given state.
+
+            Parameters:
+            state (any): The state to search for in the partition.
+
+            Returns:
+            list or None: The group that contains the state, or None if the state is not found in any group.
+            """
             for group in partition:
                 if state in group:
                     return group
@@ -155,6 +235,15 @@ class DFA:
         return DFA(new_states, self.alphabet, new_transitions, new_initial_state, new_final_states)
 
     def equivalent(self, other_dfa):
+        """
+        Check if the current DFA is equivalent to another DFA.
+
+        Parameters:
+            other_dfa (DFA): The other DFA to compare with.
+
+        Returns:
+            bool: True if the DFAs are equivalent, False otherwise.
+        """
         # if in one DFA the initial state were final state but this statement were not correct in the other DFA,
         # the DFAs are not equivalent
         if xor((self.initial_state in self.final_states), (other_dfa.initial_state in other_dfa.final_states)):
@@ -164,8 +253,6 @@ class DFA:
         product_states = [(s1, s2) for s1 in self.states for s2 in other_dfa.states]
         product_alphabet = list(set(self.alphabet) & set(other_dfa.alphabet))
         product_transitions = {}
-        # product_initial_state = (self.initial_state, other_dfa.initial_state)
-        # product_final_states = [(s1, s2) for s1 in self.final_states for s2 in other_dfa.final_states]
 
         for state1, state2 in product_states:
             for symbol in product_alphabet:
@@ -189,25 +276,3 @@ class DFA:
                 stack.append((next_state1, next_state2))
 
         return True
-
-
-        # # Use DFS to check equivalence
-        # visited = set()
-        #
-        # def dfs(state1, state2):
-        #     if (state1, state2) in visited:
-        #         return True
-        #     visited.add((state1, state2))
-        #
-        #     if (state1 in product_final_states) != (state2 in product_final_states):
-        #         return False
-        #
-        #     for symbol in product_alphabet:
-        #         next_state1, next_state2 = product_transitions[(state1, state2, symbol)]
-        #         if not dfs(next_state1, next_state2):
-        #             return False
-        #     return True
-        #
-        # # Start DFS from the initial states
-        # return dfs(product_initial_state[0], product_initial_state[1])
-
