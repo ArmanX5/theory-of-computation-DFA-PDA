@@ -1,14 +1,13 @@
 import streamlit as st
 
 
-
 def input_dfa():
     st.header("Input DFA")
     st.write("Please enter the DFA's details below:")
 
     with st.container():
         # Input states
-        states = st.text_input("Enter States (separated by comma):", value="A, B")
+        states = st.text_input("Enter States (separated by comma): ", value="A, B", key="states")
         states = states.split(",")
         states = [st.strip() for st in states]
         states = [st for st in states if st != ""]
@@ -17,7 +16,7 @@ def input_dfa():
         num_states = len(states)
 
         # Input alphabet
-        alphabet = st.text_input("Enter Alphabet (separated by comma):", value="a, b")
+        alphabet = st.text_input("Enter Alphabet (separated by comma):", value="a, b", key="alphabet")
         alphabet = alphabet.split(",")
         alphabet = [st.strip() for st in alphabet]
         alphabet = [st for st in alphabet if st != ""]
@@ -28,10 +27,10 @@ def input_dfa():
         left, right = st.columns(2)
         with left:
             # Input initial state
-            initial_state = st.selectbox("Enter Initial state:", options=states)
+            initial_state = st.selectbox("Enter Initial state:", options=states, key="initial_state")
         with right:
             # Input final states
-            final_states = st.multiselect("Enter final states:", options=states)
+            final_states = st.multiselect("Enter final states:", options=states, key="final_states")
 
     # Input transitions
     st.divider()
@@ -46,12 +45,14 @@ def input_dfa():
                     transitions[f"{state}-{symbol}"] = st.selectbox(
                         f"'{state}' with '{symbol}' goes to:",
                         options=states,
+                        key=f"{state}-{symbol}",
                     )
             else:
                 with left:
                     transitions[f"{state}-{symbol}"] = st.selectbox(
                         f"'{state}' with '{symbol}' goes to:",
                         options=states,
+                        key=f"{state}-{symbol}",
                     )
             i += 1
             # transitions[f"{state}-{symbol}"] = st.selectbox(
@@ -68,8 +69,76 @@ def input_dfa():
         "transitions": transitions,
     }
 
-            
-# function that returns a list of all strings with length n with given alphabet.
+
+def input_dfa_2():
+    st.header("Input another DFA")
+    st.write("Please enter the DFA's details below:")
+
+    with st.container():
+        # Input states
+        states = st.text_input("Enter States (separated by comma): ", value="A, B", key="states_2")
+        states = states.split(",")
+        states = [st.strip() for st in states]
+        states = [st for st in states if st != ""]
+        states = list(set(states))
+        states.sort()
+        num_states = len(states)
+
+        # Input alphabet
+        alphabet = st.text_input("Enter Alphabet (separated by comma):", value="a, b", key="alphabet_2")
+        alphabet = alphabet.split(",")
+        alphabet = [st.strip() for st in alphabet]
+        alphabet = [st for st in alphabet if st != ""]
+        alphabet = list(set(alphabet))
+        alphabet.sort()
+
+    with st.container():
+        left, right = st.columns(2)
+        with left:
+            # Input initial state
+            initial_state = st.selectbox("Enter Initial state:", options=states, key="initial_state_2")
+        with right:
+            # Input final states
+            final_states = st.multiselect("Enter final states:", options=states, key="final_states_2")
+
+    # Input transitions
+    st.divider()
+    transitions = {}
+    for state in states:
+        st.write(f"Enter transitions for state '{state}':")
+        left, right = st.columns(2)
+        i = 1
+        for symbol in alphabet:
+            if i % 2 == 0:
+                with right:
+                    transitions[f"{state}-{symbol}"] = st.selectbox(
+                        f"'{state}' with '{symbol}' goes to:",
+                        options=states,
+                        key=f"{state}-{symbol}_2",
+                    )
+            else:
+                with left:
+                    transitions[f"{state}-{symbol}"] = st.selectbox(
+                        f"'{state}' with '{symbol}' goes to:",
+                        options=states,
+                        key=f"{state}-{symbol}_2",
+                    )
+            i += 1
+            # transitions[f"{state}-{symbol}"] = st.selectbox(
+            #     f"'{state}' with '{symbol}' goes to:",
+            #     options=states,
+            # )
+        st.divider()
+
+    return {
+        "states": states,
+        "initial_state": initial_state,
+        "alphabet": alphabet,
+        "final_states": final_states,
+        "transitions": transitions,
+    }
+
+
 def generate_strings(n, alphabet):
     """
     Generates all possible strings of length n using the characters in the given alphabet.
@@ -100,6 +169,7 @@ def print_dfa(dfa):
     for key, value in dfa.transitions.items():
         print(key, "->", value)
 
+
 def state_name(state):
     state = list(state)
     name = ""
@@ -111,6 +181,7 @@ def state_name(state):
             # if i < len(state) - 1:
             #     name += ","
     return name
+
 
 def list_to_string(list):
     string = ""

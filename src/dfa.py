@@ -1,5 +1,6 @@
 from src import utils
 from graphviz import Digraph
+from operator import xor
 
 class DFA:
     def __init__(self, states, alphabet, transitions, initial_state, final_states):
@@ -9,7 +10,10 @@ class DFA:
         self.initial_state = initial_state # str "A"
         self.final_states = final_states # list ["A", "B", ...]
         self.num_states = len(states) # int
-    
+
+    def __str__(self):
+        return f"States: {self.states}\nAlphabet: {self.alphabet}\nInitial State: {self.initial_state}\nFinal States: {self.final_states}\nTransitions: {self.transitions}"
+
     def is_state_reachable(self, state):
         visited = set()  # Set to keep track of visited states during traversal
         stack = [self.initial_state]  # Stack to perform depth-first search
@@ -149,3 +153,61 @@ class DFA:
                     ]
 
         return DFA(new_states, self.alphabet, new_transitions, new_initial_state, new_final_states)
+
+    def equivalent(self, other_dfa):
+        # if in one DFA the initial state were final state but this statement were not correct in the other DFA,
+        # the DFAs are not equivalent
+        if xor((self.initial_state in self.final_states), (other_dfa.initial_state in other_dfa.final_states)):
+            return False
+
+        # Create a product automaton
+        product_states = [(s1, s2) for s1 in self.states for s2 in other_dfa.states]
+        product_alphabet = list(set(self.alphabet) & set(other_dfa.alphabet))
+        product_transitions = {}
+        # product_initial_state = (self.initial_state, other_dfa.initial_state)
+        # product_final_states = [(s1, s2) for s1 in self.final_states for s2 in other_dfa.final_states]
+
+        for state1, state2 in product_states:
+            for symbol in product_alphabet:
+                next_state1 = self.transitions.get(f"{state1}-{symbol}", None)
+                next_state2 = other_dfa.transitions.get(f"{state2}-{symbol}", None)
+                product_transitions[((state1, state2), symbol)] = (next_state1, next_state2)
+
+        stack = [(self.initial_state, other_dfa.initial_state)]
+        visited = set()
+        while stack:
+            state1, state2 = stack.pop()
+            if (state1, state2) in visited:
+                continue
+            visited.add((state1, state2))
+
+            if (state1 in self.final_states) != (state2 in other_dfa.final_states):
+                return False
+
+            for symbol in product_alphabet:
+                next_state1, next_state2 = product_transitions[((state1, state2), symbol)]
+                stack.append((next_state1, next_state2))
+
+        return True
+
+
+        # # Use DFS to check equivalence
+        # visited = set()
+        #
+        # def dfs(state1, state2):
+        #     if (state1, state2) in visited:
+        #         return True
+        #     visited.add((state1, state2))
+        #
+        #     if (state1 in product_final_states) != (state2 in product_final_states):
+        #         return False
+        #
+        #     for symbol in product_alphabet:
+        #         next_state1, next_state2 = product_transitions[(state1, state2, symbol)]
+        #         if not dfs(next_state1, next_state2):
+        #             return False
+        #     return True
+        #
+        # # Start DFS from the initial states
+        # return dfs(product_initial_state[0], product_initial_state[1])
+
