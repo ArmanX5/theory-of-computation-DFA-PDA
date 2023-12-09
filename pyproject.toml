@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "theory-of-computation"
+version = "0.1.0"
+description = ""
+authors = ["Arman Akhoundy <iarmanprog@gmail.com>"]
+readme = "README.md"
+packages = [{include = "theory_of_computation"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+streamlit = "^1.29.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -8,8 +8,12 @@
 ## Getting Started
 
 1. Clone the repository.
-2. Install the dependencies.
-3. To run the project type 'streamlit run main.py' in terminal.
+2. Create a virtual env (prefer conda).
+   > **Note:** Creating a virtual environment is important because you need to install `poetry` in further steps.
+3. Install `poetry` on your virtual env.
+   > If you are using conda, type `conda install poetry` in your terminal.
+4. Use `poetry install` command to install dependencies.
+3. To run the project type `streamlit run main.py` in terminal.
 <!-- 2. Install the dependencies by running `npm install`. -->
 <!-- 3. Start the development server by running `npm start`. -->
 
