@@ -240,3 +240,45 @@ def list_to_string(list):
         if i < len(list) - 1:
             string += ", "
     return string
+
+
+def input_pda():
+    st.header("Input PDA")
+    st.write("Please enter the PDA's details below:")
+
+    # Input states
+    states = st.text_input("Enter States (separated by comma):", value="q0, q1, q2", key="pda_states")
+    states = states.split(",")
+    states = [st.strip() for st in states]
+    states = [st for st in states if st != ""]
+    states = list(set(states))
+    states.sort()
+
+    # Input alphabet
+    alphabet = st.text_input("Enter Alphabet (separated by comma):", value="a, b", key="pda_alphabet")
+    alphabet = alphabet.split(",")
+    alphabet = [st.strip() for st in alphabet]
+    alphabet = [st for st in alphabet if st != ""]
+    alphabet = list(set(alphabet))
+    alphabet.sort()
+    alphabet.append('e')
+
+    with st.container():
+        left, right = st.columns(2)
+        with left:
+            # Input initial state
+            initial_state = st.selectbox("Enter Initial state:", options=states, key="pda_initial_state")
+        with right:
+            # Input final states
+            final_states = st.multiselect("Enter final states:", options=states, key="pda_final_states")
+
+    # Input stack alphabet
+    stack_alphabet = st.text_input("Enter Stack Alphabet (separated by comma):", value="X, Y", key="pda_stack_alphabet")
+    stack_alphabet = stack_alphabet.split(",")
+    stack_alphabet = [st.strip() for st in stack_alphabet]
+    stack_alphabet = [st for st in stack_alphabet if st != ""]
+    stack_alphabet = list(set(stack_alphabet))
+    stack_alphabet.sort()
+
+
+
