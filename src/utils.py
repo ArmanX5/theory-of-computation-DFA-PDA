@@ -243,6 +243,15 @@ def list_to_string(list):
 
 
 def input_pda():
+    """
+    Generates the input PDA by taking user inputs for the PDA's details.
+
+    Parameters:
+    None
+
+    Returns:
+    dict: A dictionary containing the PDA's details, including the states, alphabet, stack alphabet, initial state, final states, transition function, and initial stack symbol.
+    """
     st.header("Input PDA")
     st.write("Please enter the PDA's details below:")
 

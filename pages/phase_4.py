@@ -10,6 +10,7 @@ st.divider()
 # pda_details = utils.input_pda()
 # my_pda = pda.PDA(**pda_details)
 
+# Test Case
 my_pda = pda.PDA( # PDA = { a^n b^2n | n >= 1 }
     states=['q0', 'q1', 'q2'],
     alphabet=['a', 'b'],
