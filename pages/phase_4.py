@@ -5,52 +5,46 @@ st.title("PDA Page")
 st.subheader("Phase 4")
 st.divider()
 
+# To input the PDA from Streamlit UI, uncomment below code
+
 # pda_details = utils.input_pda()
-#
-# my_pda = pda.PDA(
-#     states=pda_details["states"],
-#     alphabet=pda_details["alphabet"],
-#     stack_alphabet=pda_details["stack_alphabet"],
-#     transition_function=pda_details["transition_function"],
-#     initial_state=pda_details["initial_state"],
-#     final_states=pda_details["final_states"],
-#     initial_stack_symbol=pda_details["initial_stack_symbol"],
-# )
+# my_pda = pda.PDA(**pda_details)
 
-# my_pda = pda.PDA(
-#     states=['q0', 'q1', 'q2'],
-#     alphabet=['0', '1'],
-#     stack_alphabet=['X', 'Y', 'Z'],
-#     transition_function={
-#         ('q0', '0', 'Z'): ('q1', 'XX'),
-#         ('q1', '0', 'X'): ('q1', 'XX'),
-#         ('q1', '1', 'X'): ('q2', 'e'),
-#         ('q2', '1', 'X'): ('q2', 'e')
-#     },
-#     initial_state='q0',
-#     final_states=['q2'],
-#     initial_stack_symbol='Z'
-# )
-
-my_pda = pda.PDA(
-    states=['q1', 'q2', 'q3', 'q4'],
-    alphabet=['0', '1'],
-    stack_alphabet=['0', '1'],
+my_pda = pda.PDA( # PDA = { a^n b^2n | n >= 1 }
+    states=['q0', 'q1', 'q2'],
+    alphabet=['a', 'b'],
+    stack_alphabet=['a', 'Z'],
     transition_function={
-        # ('q0', '0', 'Z'): ('q1', 'XX'),
-        ('q1', 'e', 'e'): ('q2', '1'),
-        ('q2', '0', 'e'): ('q2', '0'),
-        ('q2', '1', '0'): ('q3', 'e'),
-        ('q3', '1', '0'): ('q3', 'e'),
-        ('q3', 'e', '1'): ('q4', 'e'),
+        ('q0', 'a', 'Z'): ('q0', 'aaZ'),
+        ('q0', 'a', 'a'): ('q0', 'aaa'),
+        ('q0', 'b', 'a'): ('q1', 'e'),
+        ('q1', 'b', 'a'): ('q1', 'e'),
+        ('q1', 'e', 'Z'): ('q2', 'e'),
     },
-    initial_state='q1',
-    final_states=['q1', 'q4'],
-    initial_stack_symbol=''
+    initial_state='q0',
+    final_states=['q2'],
+    initial_stack_symbol='Z'
 )
 
-input_str = '000111'
+# print(my_pda.accepts("aabbbbb")) # accept
+# print(my_pda.accepts("aabbbb")) # fail
+# print(my_pda.accepts("aaaaaabbb")) # fail
 
+st.divider()
 st.graphviz_chart(my_pda.draw_pda())
+st.divider()
 
-st.write(my_pda.accepts("000111"))
+# accepted_strings, failed_strings =  my_pda.show_accepted_failed_strings()
+# st.write("10 strings that the PDA accepts:")
+# print(accepted_strings)
+# st.write("10 strings that the PDA doesn't accept:")
+# print(failed_strings)
+# st.divider()
+
+string = st.text_input("Input a string:", value='aabbbb')
+if my_pda.accepts(string):
+    st.write("✅ Accepted!")
+else:
+    st.write("❌ Rejected!")
+
+my_pda.stack_monitor(string)
