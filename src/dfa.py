@@ -6,7 +6,7 @@ from operator import xor
 class DFA:
     def __init__(self, states, alphabet, transitions, initial_state, final_states):
         """
-        Initializes the Finite State Machine with the given parameters.
+        بب
 
         Args:
             states (list): A list of states in the FSM.

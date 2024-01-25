@@ -17,7 +17,7 @@ class PDA:
             final_states (list): A list of final states in the automaton.
             initial_stack_symbol (str): The initial symbol on the stack.
 
-        Note:
+        Note:ss
             - states, alphabet, stack_alphabet, and final_states should be non-empty lists.
             - transition_function should be a non-empty dictionary.
             - The input alphabet and stack alphabet should contain the empty symbol 'e'.
