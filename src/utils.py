@@ -280,5 +280,25 @@ def input_pda():
     stack_alphabet = list(set(stack_alphabet))
     stack_alphabet.sort()
 
+    # Input initial stack
+    initial_stack_symbol = st.selectbox("Enter Initial Stack Symbol:", options=stack_alphabet, key="pda_initial_stack_symbol")
 
 
+    # Input transition function
+    transition_function = {}
+    transition_function_input = st.text_area("Enter Transition Function: (Use 'e' for epsilon) (format: current_state | input_symbol | stack_top | new_state | stack_operation (seprated with space))", value="q0 a X q1 XX\nq1 b Y q2 e\nq2 b X q2 e",key="pda_transition_function")
+    transition_function_input = transition_function_input.split("\n")
+    for line in transition_function_input:
+        if line != "":
+            current_state, input_symbol, stack_top, new_state, stack_operation = line.split(" ")
+            transition_function[(current_state, input_symbol, stack_top)] = (new_state, stack_operation)
+
+    return {
+        "states": states,
+        "alphabet": alphabet,
+        "stack_alphabet": stack_alphabet,
+        "initial_state": initial_state,
+        "final_states": final_states,
+        "transition_function": transition_function,
+        "initial_stack_symbol": initial_stack_symbol
+    }
