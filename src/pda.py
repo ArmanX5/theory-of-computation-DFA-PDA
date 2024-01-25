@@ -157,7 +157,7 @@ class PDA:
                     fa_strings.append(string)
                     fa += 1
             n += 1
-        return ac_strings, fa_strings
+        return ac_strings[:10], fa_strings[:10]
 
 
     def draw_pda(self):
