@@ -2,7 +2,7 @@
 
 ## Directory Structure
 
-- **App**: The codes for our UI are here.
+- **Pages**: The codes for our UI are here.
 - **Src**: The source codes are here.
 
 ## Getting Started
@@ -10,7 +10,7 @@
 1. Clone the repository.
 2. Create a **conda virtual environment** using command `conda env create -f environment.yaml`. 
    > **Note:** Creating a virtual environment is important because you need to install `poetry` in further steps.
-3. Install `poetry` on your virtual env.
+3. Install `poetry` on your virtual environment.
    > - If you are using conda, type `conda install poetry` in your terminal.
    > - It may be installed when you create the conda environment using the `environment.yaml` file.
 4. Use `poetry install` command to install dependencies.

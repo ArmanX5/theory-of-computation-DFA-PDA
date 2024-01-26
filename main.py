@@ -1,5 +1,4 @@
 import streamlit as st
-from src import utils
 
 # Title
 st.title("Theory of Computation Project")
@@ -50,10 +49,6 @@ with st.container():
             - Monitoring the stack of the PDA.
             - Defines whether the machine accepts string X or not.
                         ''')
-    
-        
-
-
 
 # Footer
 st.divider()

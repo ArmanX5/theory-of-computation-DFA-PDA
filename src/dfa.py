@@ -2,10 +2,11 @@ from src import utils
 from graphviz import Digraph
 from operator import xor
 
+
 class DFA:
     def __init__(self, states, alphabet, transitions, initial_state, final_states):
         """
-        Initializes the Finite State Machine with the given parameters.
+        بب
 
         Args:
             states (list): A list of states in the FSM.
@@ -146,7 +147,7 @@ class DFA:
                 dot.node(state, shape='circle')
 
         # Add an arrow from nowhere to the initial state
-        dot.node("Nowhere", style='invisible')
+        dot.node("Nowhere", style='invisible', shape='point')
         dot.edge("Nowhere", self.initial_state, label='')
 
         # Combine transitions with the same source and destination states
