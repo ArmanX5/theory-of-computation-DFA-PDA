@@ -1,5 +1,8 @@
 # Theory of Computation Project
 
+## Summery
+This repo is able to do some DFA and PDA operations
+
 ## Directory Structure
 
 - **Pages**: The codes for our UI are here.
