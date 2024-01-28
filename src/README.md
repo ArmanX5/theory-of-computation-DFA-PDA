@@ -4,9 +4,7 @@ This folder contains the source code for our project. It is organized into diffe
 
 ## Directory Structure
 
-- **Degree**: Codes for degree function of expressions.
 - **DFA**: DFA class here.
-- **Expression**: Expression class here.
 - **PDA**: PDA class here.
 - **utils**: Contains utility functions or helper classes used across the project.
 
