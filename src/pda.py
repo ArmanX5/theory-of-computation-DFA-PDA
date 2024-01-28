@@ -17,7 +17,7 @@ class PDA:
             final_states (list): A list of final states in the automaton.
             initial_stack_symbol (str): The initial symbol on the stack.
 
-        Note:ss
+        Note:
             - states, alphabet, stack_alphabet, and final_states should be non-empty lists.
             - transition_function should be a non-empty dictionary.
             - The input alphabet and stack alphabet should contain the empty symbol 'e'.
@@ -119,7 +119,7 @@ class PDA:
             return current_state in self.final_states
 
 
-    def show_accepted_failed_strings(self):
+    def show_accepted_failed_strings(self, number):
         """
         Show the accepted and failed strings.
 
@@ -144,19 +144,19 @@ class PDA:
         fa = 0
         ac_strings = []
         fa_strings = []
-        while ac < 10 or fa < 10:
+        while ac < number or fa < number:
             generated_strings = utils.generate_strings(n, self.alphabet)
             for string in generated_strings:
-                if ac >= 10 and fa >= 10:
+                if ac >= number and fa >= number:
                     break
                 if self.accepts(string):
                     ac_strings.append(string)
                     ac += 1
-                else:
+                elif not self.accepts(string):
                     fa_strings.append(string)
                     fa += 1
             n += 1
-        return ac_strings[:10], fa_strings[:10]
+        return ac_strings[:number], fa_strings[:number]
 
 
     def draw_pda(self):

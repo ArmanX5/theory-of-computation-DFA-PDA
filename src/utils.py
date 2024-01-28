@@ -173,6 +173,8 @@ def generate_strings(n, alphabet):
     Returns:
         list: A list of strings containing all possible combinations of the characters in the alphabet.
     """
+    if 'e' in alphabet:
+        alphabet.remove('e')
     if n == 0:
         return [""]
     else:
@@ -282,7 +284,7 @@ def input_pda():
             final_states = st.multiselect("Enter final states:", options=states, key="pda_final_states")
 
     # Input stack alphabet
-    stack_alphabet = st.text_input("Enter Stack Alphabet (separated by comma):", value="X, Y", key="pda_stack_alphabet")
+    stack_alphabet = st.text_input("Enter Stack Alphabet (separated by comma):", value="a, Z", key="pda_stack_alphabet")
     stack_alphabet = stack_alphabet.split(",")
     stack_alphabet = [st.strip() for st in stack_alphabet]
     stack_alphabet = [st for st in stack_alphabet if st != ""]
@@ -295,7 +297,7 @@ def input_pda():
 
     # Input transition function
     transition_function = {}
-    transition_function_input = st.text_area("Enter Transition Function: (Use 'e' for epsilon) (format: current_state | input_symbol | stack_top | new_state | stack_operation (seprated with space))", value="q0 a X q1 XX\nq1 b Y q2 e\nq2 b X q2 e",key="pda_transition_function")
+    transition_function_input = st.text_area("Enter Transition Function: (Use 'e' for epsilon) (format: current_state | input_symbol | stack_top | new_state | stack_operation (seprated with space))", value="q0 a Z q0 aaZ\nq1 a a q0 aaa\nq0 b a q1 e\nq1 b a q1 e\nq1 e Z q2 e",key="pda_transition_function")
     transition_function_input = transition_function_input.split("\n")
     for line in transition_function_input:
         if line != "":
