@@ -4,10 +4,8 @@ This folder contains the UI source code for our project. We use **Streamlit** fo
 
 ## Directory Structure
 
-- **phase_1**: Codes for the 1st phase of project here.
-- **phase_2**: Codes for the 2nd phase of project here.
-- **phase_3**: Codes for the 3rd phase of project here.
-- **phase_4**: Codes for the 4th phase of project here.
+- **phase_1**: Codes for the DFA phase of project here.
+- **phase_2**: Codes for the PDA phase of project here.
 
 ## Getting Started
 
